@@ -5,7 +5,9 @@
 This strategy outlines the QA approach and methodology for validating the security posture and regulatory compliance of the core money transfer API POST (/api/v1/transfers/).
 
 🔒 SECURITY TESTING METHODOLOGY
+
 🔑 1. Authentication
+
 Objective:
 
 - Ensure only verified, active users with valid login credentials can access the transfer API and make transfers.
@@ -19,6 +21,7 @@ Testing Approach:
 - Inactive/Unverified/Suspended Account: Send request using a valid token from an account that is (i) unverified (ii) inactive (iii) suspended and verify the API blocks the requests and sends 403 forbidden errors.
 
 🛡️ 2. Authorization
+
 Objective:
 
 - Ensure logged-in users can only send money from their account and cannot access someone else’s wallet.
@@ -32,6 +35,7 @@ Testing Approach:
 - Unauthorized Privilege Transfer: Attempt to make a transfer that bypass business rule (>£5000, > £10,000) by adding admin headers. Verify the API ignores the header and enforces business rules and sends appropriate responses (202 accepted with status “PENDING APPROVAL” , 202 accepted status code for amount >£5000) and ( 400 bad request with error “EXCEED MAXIMUM LIMIT”) for amount > than £10,000).
 
 🕵️‍♂️ 3. Sensitive Data Exposure
+
 Objective:
 
 - Ensure private user information is protected and not exposed in web traffic, API responses or system errors.
@@ -43,6 +47,7 @@ Testing Approach:
 - Exposing Private Data in Responses: Check successful and failed transfer responses. Verify sensitive fields are not exposed in the response body and are appropriately masked.
 
 🔄 4. Replay Attacks
+
 Objective:
 
 - Ensure that a valid, stopped transfer request cannot be re-sent by an attacker or re-submitted accidentally by a user to process duplicate payments.
@@ -54,6 +59,7 @@ Testing Approach:
 - Idempotency Key Validation: Send two requests using the exact same unique Idempotency-Key header. Verify that the second request returns the existing transaction result and does not create a new payment.
 
 ⏱️ 5. Rate Limiting
+
 Objective:
 
 - Ensure the API limits the number of requests a user can send within a specific time period to protect against spam and server overload.
@@ -65,6 +71,7 @@ Testing Approach:
 - Cool Down Period: Wait for the duration specified to cool down and retry. Verify the limit has been reset and the request is successfully processed.
 
 🧪 6. Input Validating
+
 Objective:
 
 - Ensure all fields in the request body are properly validated and cleaned so bad data or malicious code cannot break the system or tamper with the database.
