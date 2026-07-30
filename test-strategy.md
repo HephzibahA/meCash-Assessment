@@ -1,6 +1,9 @@
 🎯 TEST STRATEGY
+
 🔍 1. SCOPE
+
 ✅ In Scope (What Will Be Tested)
+
 API Endpoints:
 
 Verification of the transfer processing via /api/v1/transfers
