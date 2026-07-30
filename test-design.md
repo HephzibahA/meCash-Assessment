@@ -1,448 +1,246 @@
+> **1.** **FUNCTIONAL** **SCENARIOS**
 
-📋 TEST DESIGN SPECIFICATION
+<img src="./dvjxdwh2.png"
+style="width:10.29702in;height:1.47929in" />TEST CASE ID TEST CASE TITLE
 
-⚙️ 1. FUNCTIONAL SCENARIOS
+TC_FUNC_001 Successful transer
 
-TC_FUNC_001: Successful transfer
+TC_FUNC_002 Unsupported currency
 
-Scenario Type: Positive
+TC_FUNC_003 Insufficient balance
 
-Pre-conditions: Sender has sufficient wallet balance (>£500)
+TC_FUNC_004 Invalid receiver Wallet ID
 
-Test Steps:
+TC_FUNC_005 Invalid sender Wallet ID
 
-- Send POST /api/v1/transfers/
+TC_FUNC_006 Transfer requred amount
 
-- Enter valid walletId, amount, and accepted currency (GBP, EUR, USD)
+TC_FUNC_007 Transfer above maximum limit
 
-- Test Data:
+> **2.** **BOUNDARY** **VALUE** **ANALYSIS**
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 500.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 201 Created
+TEST CASE ID BOUNDARY VALUE
 
-Expected Response Body:
+TC_BVA_001 £0.00
 
-transactionId is present
+TC_BVA_002 £1.00
 
-Status is "SUCCESS"
+TC_BVA_003 £4,999.99
 
-TC_FUNC_002: Unsupported currency
-Scenario Type: Negative
+TC_BVA_004 £5,000.00
 
-Pre-conditions: System is active
+TC_BVA_005 £5,000.01
 
-Test Steps:
+TC_BVA_006 £9,999.99
 
-Send POST /api/v1/transfers/
+TC_BVA_007 £10,000.00
 
-Enter unaccepted currency
+TC_BVA_008 £10,000.01
 
-Test Data:
+SCENARIO TYPE
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 500.00,
-  "currency": "JPY"
-}
-Expected HTTP Code: 400 Bad Request
+Positive
 
-Expected Response Body:
+Negative
 
-Error code: "UNSUPPORTED_CURRENCY"
+Negative
 
-Error message: "currency must be one of GBP, EUR, USD"
+Negative
 
-Error field: "currency"
+Negative
 
-TC_FUNC_003: Insufficient balance
-Scenario Type: Negative
+Positive/Review
 
-Pre-conditions: Sender has an insufficient wallet balance (<£1)
+Negative
 
-Test Steps:
+BOUNDARY VALUE CATEGORY
 
-Send POST /api/v1/transfers/
+Below minimum limit
 
-Enter amount greater than wallet balance
+Minimum limit allowed
 
-Test Data:
+Just below approval limit
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 500.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 400 Bad Request
+At limit
 
-Expected Response Body:
+Just above approval limit
 
-Error code: "INSUFFICIENT_BALANCE"
+Below maximum limit
 
-Error message: "Insufficient balance"
+At maximum limit
 
-Error field: "amount"
+Just above maximum limit
 
-TC_FUNC_004: Invalid receiver Wallet ID
-Scenario Type: Negative
+PRE-CONDITIONS TEST STEPS TEST DATA EXPECTED HTTP CODE
 
-Pre-conditions: System is active
+\- Sender has sufficient wallet balance (\>£500) - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 201 Created - Enter
+valid walletId, amount and accepted "receiverWalletId": "WALLET002",
 
-Test Steps:
+> currency (GBP, EUR, USD) "amount": 500.00, "currency": "GBP"}
 
-Send POST /api/v1/transfers/
+System is active - Send POST /api/v1/transfers/ - 400 Bad Request -
+Enter unaccepted currency {"senderWalletId": "WALLET001",
 
-Enter non-existent or invalid receiverWalletId
+> "receiverWalletId": "WALLET002", "amount": 500.00,
+>
+> "currency": "JPY"}
 
-Other fields remain valid
+\- Sender has an insufficient wallet balance (\< - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 400 Bad Request
+£1) - Enter amount greater than wallet balance "receiverWalletId":
+"WALLET002",
 
-Test Data:
+> "amount": 500.00, "currency": "GBP"}
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "Invalid",
-  "amount": 500.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 404 Not Found
+System is active - Send POST /api/v1/transfers/ {"senderWalletId":
+"WALLET001", - 404 Not Found - Enter non-existent or invalid
+"receiverWalletId": "Invalid",
 
-Expected Response Body:
+> receiverWalletId "amount": 500.00, - Other fields remain valid
+> "currency": "GBP"}
 
-Error code: "WALLET_NOT_FOUND"
+System is active - Send POST /api/v1/transfers/ {"senderWalletId":
+"Invalid", - 404 Not Found - Enter non-existent or invalid
+"receiverWalletId": "WALLET002",
 
-Error message: "Receiver wallet does not exist"
+> receiverWalletId "amount": 500.00, - Other fields remain valid
+> "currency": "GBP"}
 
-Error field: "receiverWalletId"
+\- Sender has balance greater than (£5,000) - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 202 Accepted - Set
+amount \> 5000 "receiverWalletId": "WALLET002",
 
-TC_FUNC_005: Invalid sender Wallet ID
-Scenario Type: Negative
+> "amount": 5500.00, "currency": "GBP"}
 
-Pre-conditions: System is active
+\- Sender has an active wallet - Send POST /api/v1/transfers/ - 400 Bad
+Request - Set amount \> 10000 {"senderWalletId": "WALLET001",
 
-Test Steps:
+> "receiverWalletId": "WALLET002", "amount": 15000.00,
+>
+> "currency": "GBP"}
 
-Send POST /api/v1/transfers/
+PRE-CONDITIONS TEST STEPS TEST DATA EXPECTED HTTP CODE
 
-Enter non-existent or invalid senderWalletId
+\- Sender has an active account - Send POST /api/v1/transfers/
+{"senderWalletId": "WALLET001", - 400 Bad Request - Set amount to £0.00
+"receiverWalletId": "WALLET002",
 
-Other fields remain valid
+> "amount": 0.00, "currency": "GBP"}
 
-Test Data:
+\- Sender has balance greater than or equal - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 201 Created (£1) -
+Set amount to 1.00 "receiverWalletId": "WALLET002",
 
-JSON
-{
-  "senderWalletId": "Invalid",
-  "receiverWalletId": "WALLET002",
-  "amount": 500.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 404 Not Found
+> "amount": 1.00, "currency": "GBP"}
 
-Expected Response Body:
+\- Sender has balance greater than or equal - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 201 Created
+(£5,000) - Set amount to 4999.99 "receiverWalletId": "WALLET002",
 
-Error code: "WALLET_NOT_FOUND"
+> "amount": 4999.99, "currency": "GBP"}
 
-Error message: "Sender wallet does not exist"
+\- Sender has balance greater than or equal - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 201 Created
+(£5,000) - Set amount to 5000.00 "receiverWalletId": "WALLET002",
 
-Error field: "senderWalletId"
+> "amount": 5000.00, "currency": "GBP"}
 
-TC_FUNC_006: Transfer required amount
-Scenario Type: Positive / Review
+\- Sender has balance greater than (£5,000) - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 202 Accepted - Set
+amount to 5000.01 "receiverWalletId": "WALLET002",
 
-Pre-conditions: Sender has balance greater than (£5,000)
+> "amount": 5000.01, "currency": "GBP"}
 
-Test Steps:
+\- Sender has balance greater than or equal - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 202 Accepted
+(£10,000) - Set amount to 9999.99 "receiverWalletId": "WALLET002",
 
-Send POST /api/v1/transfers/
+> "amount": 9999.99, "currency": "GBP"}
 
-Set amount > 5000
+\- Sender has balance greater than or equal - Send POST
+/api/v1/transfers/ {"senderWalletId": "WALLET001", - 202 Accepted
+(£10,000) - Set amount to 10000.00 "receiverWalletId": "WALLET002",
 
-Test Data:
+> "amount": 10000.00, "currency": "GBP"}
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 5500.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 202 Accepted
+\- Sender has balance greater than (£10,000) - Send POST
+/api/v1/transfers/ - 400 Bad Request - Set amount to 10000.01
+{"senderWalletId": "WALLET001",
 
-Expected Response Body:
+> "receiverWalletId": "WALLET002", "amount": 10000.01,
+>
+> "currency": "GBP"}
 
-transactionId is present
+EXPECTED RESPONSE BODY
 
-Status is "PENDING APPROVAL"
+\- TransactionId is present - Status is "SUCCESS"
 
-TC_FUNC_007: Transfer above maximum limit
-Scenario Type: Negative
+\- Error code: "UNSUPPORTED_CURRENCY"
 
-Pre-conditions: Sender has an active wallet
+\- Error message: "currency must be one of GBP, EUR, USD"
 
-Test Steps:
+\- Error field: "currency"
 
-Send POST /api/v1/transfers/
+\- Error code: "INSUFFICIENT_BALANCE" - Error message: "Insufficient
+balance"
 
-Set amount > 10000
+\- Error field: "amount"
 
-Test Data:
+\- Error code: "WALLET_NOT_FOUND"
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 15000.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 400 Bad Request
+\- Error message: "Receiver wallet does not exist"
 
-Expected Response Body:
+\- Error field: "receiverWalletId"
 
-Error code: "AMOUNT EXCEEDS MAXIMUM"
+\- Error code: "WALLET_NOT_FOUND"
 
-Error message: "Enter an amount less than 10000"
+\- Error message: "Sender wallet does not exist"
 
-Error field: "amount"
+\- Error field: "senderWalletId"
 
-📏 2. BOUNDARY VALUE ANALYSIS (BVA)
-TC_BVA_001: £0.00
-Boundary Value Category: Below minimum limit
+\- TransactionId is present
 
-Pre-conditions: Sender has an active account
+\- Status is "PENDING APPROVAL"
 
-Test Steps:
+\- Error code: "AMOUNT EXCEEDS MAXIMUM"
 
-Send POST /api/v1/transfers/
+\- Error message: "Enter an amount less than 10000"
 
-Set amount to £0.00
+\- Error field: "amount"
 
-Test Data:
+EXPECTED RESPONSE BODY
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 0.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 400 Bad Request
+\- Error code: "INVALID AMOUNT"
 
-Expected Response Body:
+\- Error message: "Amount must be greater than 0"
 
-Error code: "INVALID AMOUNT"
+\- Error field: "amount"
 
-Error message: "Amount must be greater than 0"
+\- TransactionId is present - Status is "SUCCESS"
 
-Error field: "amount"
+\- TransactionId is present - Status is "SUCCESS"
 
-TC_BVA_002: £1.00
-Boundary Value Category: Minimum limit allowed
+\- Auto-approved
 
-Pre-conditions: Sender has balance greater than or equal (£1)
+\- TransactionId is present - Status is "SUCCESS"
 
-Test Steps:
+\- Auto-approved
 
-Send POST /api/v1/transfers/
+\- TransactionId is present
 
-Set amount to 1.00
+\- Status is "PENDING APPROVAL"
 
-Test Data:
+\- TransactionId is present
 
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 1.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 201 Created
+\- Status is "PENDING APPROVAL"
 
-Expected Response Body:
+\- TransactionId is present
 
-transactionId is present
+\- Status is "PENDING APPROVAL"
 
-Status is "SUCCESS"
+\- Error code: "AMOUNT EXCEEDS MAXIMUM"
 
-TC_BVA_003: £4,999.99
-Boundary Value Category: Just below approval limit
+\- Error message: "Enter an amount less than 10000"
 
-Pre-conditions: Sender has balance greater than or equal (£5,000)
-
-Test Steps:
-
-Send POST /api/v1/transfers/
-
-Set amount to 4999.99
-
-Test Data:
-
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 4999.99,
-  "currency": "GBP"
-}
-Expected HTTP Code: 201 Created
-
-Expected Response Body:
-
-transactionId is present
-
-Status is "SUCCESS"
-
-Auto-approved
-
-TC_BVA_004: £5,000.00
-Boundary Value Category: At limit
-
-Pre-conditions: Sender has balance greater than or equal (£5,000)
-
-Test Steps:
-
-Send POST /api/v1/transfers/
-
-Set amount to 5000.00
-
-Test Data:
-
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 5000.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 201 Created
-
-Expected Response Body:
-
-transactionId is present
-
-Status is "SUCCESS"
-
-Auto-approved
-
-TC_BVA_005: £5,000.01
-Boundary Value Category: Just above approval limit
-
-Pre-conditions: Sender has balance greater than (£5,000)
-
-Test Steps:
-
-Send POST /api/v1/transfers/
-
-Set amount to 5000.01
-
-Test Data:
-
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 5000.01,
-  "currency": "GBP"
-}
-Expected HTTP Code: 202 Accepted
-
-Expected Response Body:
-
-transactionId is present
-
-Status is "PENDING APPROVAL"
-
-TC_BVA_006: £9,999.99
-Boundary Value Category: Below maximum limit
-
-Pre-conditions: Sender has balance greater than or equal (£10,000)
-
-Test Steps:
-
-Send POST /api/v1/transfers/
-
-Set amount to 9999.99
-
-Test Data:
-
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 9999.99,
-  "currency": "GBP"
-}
-Expected HTTP Code: 202 Accepted
-
-Expected Response Body:
-
-transactionId is present
-
-Status is "PENDING APPROVAL"
-
-TC_BVA_007: £10,000.00
-Boundary Value Category: At maximum limit
-
-Pre-conditions: Sender has balance greater than or equal (£10,000)
-
-Test Steps:
-
-Send POST /api/v1/transfers/
-
-Set amount to 10000.00
-
-Test Data:
-
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 10000.00,
-  "currency": "GBP"
-}
-Expected HTTP Code: 202 Accepted
-
-Expected Response Body:
-
-transactionId is present
-
-Status is "PENDING APPROVAL"
-
-TC_BVA_008: £10,000.01
-Boundary Value Category: Just above maximum limit
-
-Pre-conditions: Sender has balance greater than (£10,000)
-
-Test Steps:
-
-Send POST /api/v1/transfers/
-
-Set amount to 10000.01
-
-Test Data:
-
-JSON
-{
-  "senderWalletId": "WALLET001",
-  "receiverWalletId": "WALLET002",
-  "amount": 10000.01,
-  "currency": "GBP"
-}
-Expected HTTP Code: 400 Bad Request
-
-Expected Response Body:
-
-Error code: "AMOUNT EXCEEDS MAXIMUM"
-
-Error message: "Enter an amount less than 10000"
-
-Error field: "amount"
+\- Error field: "amount"
