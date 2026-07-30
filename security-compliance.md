@@ -1,4 +1,5 @@
 🛡️ SECURITY & COMPLIANCE TESTING STRATEGY
+
  Overview:
 
 This strategy outlines the QA approach and methodology for validating the security posture and regulatory compliance of the core money transfer API POST (/api/v1/transfers/).
