@@ -1,8 +1,10 @@
-Here is the formatted version converted into structured list sections (instead of Markdown tables) so it displays cleanly in GitHub without relying on table rendering!
 
 📋 TEST DESIGN SPECIFICATION
+
 ⚙️ 1. FUNCTIONAL SCENARIOS
+
 TC_FUNC_001: Successful transfer
+
 Scenario Type: Positive
 
 Pre-conditions: Sender has sufficient wallet balance (>£500)
