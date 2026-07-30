@@ -17,13 +17,12 @@ Automated QA test suite and CI pipeline for the meCash Money Transfer API (POST 
 3. Framework structure
    
  meCash-Assessment/
-├── .github/.                      # GitHub Actions CI workflow
+ 
+├── .github/.                        # GitHub Actions CI workflow
+     └── workflows/
+     └── main.yml 
 
-│   └── workflows/
-
-│       └── main.yml 
-
-├── automation/.                    # Postman collection & environment
+├── automation/                      # Postman collection & environment
 
 ├── reports/                         # Destination folder for HTML test reports
 
@@ -35,18 +34,20 @@ Automated QA test suite and CI pipeline for the meCash Money Transfer API (POST 
 
 ├── package.json                      # Dependencies and test runner script
 
-├── security-compliance.md           # Security & OWASP testing specs
+├── security-compliance.md            # Security & OWASP testing specs
 
-├── test-design.md                   # Detailed test cases & BVA scenarios
+├── test-design.md                    # Detailed test cases & BVA scenarios
 
-└── test-strategy.md                 # Scope, test approach, and risk assessment
+└── test-strategy.md                  # Scope, test approach, and risk assessment
 
 4.  Setup instructions
 git clone https://github.com/HephzibahA/meCash-Assessment.git
+
 cd meCash-Assessment
+
 npm install
 
-5. Execution instructionsLocal Execution
+6. Execution instructionsLocal Execution
 
    To run tests locally and generate an HTML report: npm test
    
