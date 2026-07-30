@@ -90,4 +90,17 @@ Testing Approach:
 - Attempt to call administrative endpoint. Verify the API blocks access.
 
 
+🛡️ Compliance Validation
+
+- PCI DSS: Ensured TLS 1.3 encryption for data in transit and masked sensitive payment payload data (no plain-text cardholder/PAN data stored or logged).
+
+- GDPR: Validated PII data minimization in request payloads and verified users can exercise right-to-erasure/data access.
+
+- Audit Logging: Verified all critical actions (auth, transfers, updates) emit structured logs capturing timestamp, user_id, action, and IP.
+
+- Transaction Traceability: Enforced unique correlation_id / transaction_id tracking across all API headers for end-to-end request tracing.
+
+- Data Retention & Privacy: Validated data retention policies, ensuring sensitive logs auto-expire and payload storage aligns with privacy requirements.
+
+
 
