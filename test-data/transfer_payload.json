@@ -1,0 +1,7 @@
+{
+    "senderWalletId": "WALLET001",
+    "receiverWalletId": "WALLET002",
+    "amount": 500,
+    "currency": "GBP",
+  "Idempotency-key": 11111111-1111-1111-1111-111111111111
+}
