@@ -9,11 +9,11 @@ Pre-conditions: Sender has sufficient wallet balance (>£500)
 
 Test Steps:
 
-Send POST /api/v1/transfers/
+- Send POST /api/v1/transfers/
 
-Enter valid walletId, amount, and accepted currency (GBP, EUR, USD)
+- Enter valid walletId, amount, and accepted currency (GBP, EUR, USD)
 
-Test Data:
+- Test Data:
 
 JSON
 {
