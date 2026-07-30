@@ -14,7 +14,7 @@ Automated QA test suite and CI pipeline for the meCash Money Transfer API (POST 
      
    - GitHub Actions: CI pipeline that runs tests automatically on every push.
      
-3. Framework structure
+2. Framework structure
    
  meCash-Assessment/
  
@@ -40,24 +40,18 @@ Automated QA test suite and CI pipeline for the meCash Money Transfer API (POST 
 
 └── test-strategy.md                  # Scope, test approach, and risk assessment
 
-4.  Setup instructions
+3.  Setup instructions
 git clone https://github.com/HephzibahA/meCash-Assessment.git
 
 cd meCash-Assessment
 
 npm install
 
-6. Execution instructionsLocal Execution
-
-   To run tests locally and generate an HTML report: npm test
-   
-CI Execution (GitHub Actions):
-
-- Every push to main automatically runs the test suite.
+4.Execution Instructions
+-  Local Execution: Run the full automated test suite locally to generate an interactive HTML report: npm test
+- CI (GitHub Actions): Tests execute automatically on every push or PR to main. To view or download the HTML execution report, go to GitHub Actions- Latest Run - Artifacts.
   
-- View results and download the HTML report under GitHub Actions- Workflow Run - Artifacts.
-  
-6. Assumptions made
+5. Assumptions made
 
 - Mock Server: Postman mock server handles test requests.
   
@@ -65,7 +59,7 @@ CI Execution (GitHub Actions):
   
 - Idempotency: Unique X-Idempotency-Key header prevents duplicate charges.
   
-7. Design decisions
+6. Design decisions
    
 - Markdown Docs: Standardized all test cases and strategies as .md files for clean reading directly on GitHub.
   
