@@ -18,27 +18,27 @@ Automated QA test suite and CI pipeline for the meCash Money Transfer API (POST 
    
  meCash-Assessment/
  
- .github/.                        # GitHub Actions CI workflow
+ - .github/.                        :GitHub Actions CI workflow
       workflows/
       main.yml 
 
- Automation/                      # Postman collection & environment
+ - Automation/                     :Postman collection & environment
 
-reports/                         # Destination folder for HTML test reports
+- reports/                         :Destination folder for HTML test reports
 
-test-data/                        # Sample payloads and environment data
+- test-data/                        :Sample payloads and environment data
 
- README.md                         # Main repository documentation & setup guide
+ - README.md                         :Main repository documentation & setup guide
 
-package-lock.json                 # Locked dependency version tree
+- package-lock.json                 :Locked dependency version tree
 
-package.json                      # Dependencies and test runner script
+- package.json                      :Dependencies and test runner script
 
-security-compliance.md            # Security & OWASP testing specs
+- security-compliance.md            :Security & OWASP testing specs
 
-test-design.md                    # Detailed test cases & BVA scenarios
+- test-design.md                    :Detailed test cases & BVA scenarios
 
-test-strategy.md                  # Scope, test approach, and risk assessment
+- test-strategy.md                  :Scope, test approach, and risk assessment
 
 3.  Setup instructions
 git clone https://github.com/HephzibahA/meCash-Assessment.git
@@ -49,6 +49,7 @@ npm install
 
 4.Execution Instructions
 -  Local Execution: Run the full automated test suite locally to generate an interactive HTML report: npm test
+  
 - CI (GitHub Actions): Tests execute automatically on every push or PR to main. To view or download the HTML execution report, go to GitHub Actions- Latest Run - Artifacts.
   
 5. Assumptions made
