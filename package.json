@@ -1,0 +1,13 @@
+{
+  "name": "mecash-Assessment",
+  "version": "1.0.0",
+  "description": "API Test Automation Suite for meCash Transfers",
+  "main": "index.js",
+  "scripts": {
+    "test": "newman run Automation/meCash.postman_collection.json -e Automation/meCash_mock.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export reports/newman-report.html"
+  },
+  "devDependencies": {
+    "newman": "^6.0.0",
+    "newman-reporter-htmlextra": "^1.23.0"
+  }
+}
