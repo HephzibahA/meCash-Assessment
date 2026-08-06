@@ -255,7 +255,7 @@
             {
               "name": "transfer_duplicate_transaction",
               "originalRequest": {
-                "method": "GET",
+                "method": "POST",
                 "header": [
                   {
                     "key": "x-mock-response-name",
@@ -1208,11 +1208,8 @@
                   }
                 }
               ],
-              "protocolProfileBehavior": {
-                "disableBodyPruning": true
-              },
               "request": {
-                "method": "GET",
+                "method": "POST",
                 "header": [
                   {
                     "key": "Idempotency-key",
