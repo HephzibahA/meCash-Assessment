@@ -255,7 +255,7 @@
             {
               "name": "transfer_duplicate_transaction",
               "originalRequest": {
-                "method": "POST",
+                "method": "GET",
                 "header": [
                   {
                     "key": "x-mock-response-name",
@@ -618,6 +618,7 @@
                       "const resBody = pm.response.json();",
                       "const reqBody = JSON.parse(pm.request.body.raw)",
                       "pm.collectionVariables.set(\"originalTransactionId\", pm.response.json().transactionId);",
+                      "",
                       "pm.test(\"valid transfer completes with SUCCESS status\", function() {",
                       "    pm.expect(resBody.status).to.eql(\"SUCCESS\");",
                       "    pm.expect(resBody.currency).to.eql(reqBody.currency);",
@@ -1199,7 +1200,7 @@
                       "",
                       "pm.test(\"References original transaction ID\", function()  {",
                       "    pm.expect(resBody.transactionId).to.eql(originalId);",
-                      "});"
+                      "}) ;"
                     ],
                     "type": "text/javascript",
                     "packages": {},
@@ -1207,8 +1208,11 @@
                   }
                 }
               ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
               "request": {
-                "method": "POST",
+                "method": "GET",
                 "header": [
                   {
                     "key": "Idempotency-key",
